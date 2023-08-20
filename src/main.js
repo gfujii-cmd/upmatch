@@ -1,17 +1,23 @@
 // Application modules
 const express = require('express')
 const mongoose = require('mongoose')
-const path = require('path')
 
 // Environment config
 require('dotenv').config({path: `.env.${process.env.NODE_ENV}`})
 
 const app = express()
+app.use(express.json())
 
 const PORT = process.env.PORT || 3000
 
+// Routes
+const PlayerRoutes = require('./player/routes/PlayerRoutes')
+
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Connect successfully to database")
+
+    app.use("/player", PlayerRoutes)
+
     app.listen(PORT, () => {
         console.log("Application running at port " + PORT)
     })
