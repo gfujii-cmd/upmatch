@@ -12,11 +12,13 @@ const PORT = process.env.PORT || 3000
 
 // Routes
 const PlayerRoutes = require('./player/routes/PlayerRoutes')
+const LeagueRoutes = require('./league/routes/LeagueRoutes')
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Connect successfully to database")
 
     app.use("/player", PlayerRoutes)
+    app.use("/league", LeagueRoutes)
 
     app.listen(PORT, () => {
         console.log("Application running at port " + PORT)

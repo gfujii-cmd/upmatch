@@ -10,13 +10,16 @@ module.exports = {
       nickname: {
         type: "string",
       },
-      email: {
-        type: "number",
-      },
-      password: {
-        type: "string",
-      },
+      // email: {
+      //   type: "number",
+      // },
+      // password: {
+      //   type: "string",
+      // },
+      totalPoints: {
+        type: "number"
+      }
     },
-    required: ["name", "surname", "nickname", "email", "password"],
+    required: ["name", "surname", "nickname"],
     additionalProperties: false,
   };

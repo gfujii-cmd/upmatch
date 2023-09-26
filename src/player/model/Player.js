@@ -9,8 +9,9 @@ const PlayerSchema = new Schema({
     name: Schema.Types.String,
     surname: Schema.Types.String,
     nickname: Schema.Types.String,
-    email: Schema.Types.String,
-    password: Schema.Types.String
+    // email: Schema.Types.String,
+    // password: Schema.Types.String,
+    totalPoints: Schema.Types.Number
 })
 
 const PlayerModel = mongoose.model('Players', PlayerSchema)
