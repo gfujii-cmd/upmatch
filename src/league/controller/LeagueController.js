@@ -74,7 +74,30 @@ module.exports = {
 
         try {
             const leagues = await LeagueModel.find({'startDate': date})
-            console.log(leagues)
+            if(leagues.length === 0) {
+                const response = {
+                    error: `No leagues were found`,
+                    errorCode: 404
+                }
+                res.status(404).json(response)
+            } else {
+                res.status(200).json(leagues)
+            }
+        } catch (err) {
+            const response = {
+                error: `Something went wrong`,
+                errorCode: 400
+            }
+            res.status(400).json(response)
+        }
+    },
+
+    findLeagueByDateRange: async (req, res) => {
+        const sDate = req.query.sDate
+        const eDate = req.query.eDate
+
+        try {
+            const leagues = await LeagueModel.find({'startDate': {$gte: sDate, $lte: eDate}})
             if(leagues.length === 0) {
                 const response = {
                     error: `No leagues were found`,

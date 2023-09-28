@@ -10,6 +10,8 @@ router.get("/findById", LeagueController.findLeagueById)
 
 router.get("/findByDate", LeagueController.findLeagueByDate)
 
-router.put("/addPlayerTo", LeagueController.addPlayerToLeague)
+router.get("/findByDateRange", LeagueController.findLeagueByDateRange)
+
+// router.put("/addPlayerTo", LeagueController.addPlayerToLeague)
 
 module.exports = router
