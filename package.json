@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "NODE_ENV=dev nodemon src/main.js"
+    "start:dev": "NODE_ENV=dev nodemon src/main.js",
+    "start": "node src/main.js"
   },
   "author": "",
   "license": "ISC",
