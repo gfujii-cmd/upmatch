@@ -3,7 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 // Environment config
-require('dotenv').config({path: `.env.${process.env.NODE_ENV}`})
+require('dotenv').config()
 
 const app = express()
 app.use(express.json())
@@ -15,6 +15,7 @@ const PlayerRoutes = require('./player/routes/PlayerRoutes')
 const LeagueRoutes = require('./league/routes/LeagueRoutes')
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
+    console.log(process.env.MONGO_URL)
     console.log("Connect successfully to database")
 
     app.use("/player", PlayerRoutes)
