@@ -15,7 +15,6 @@ const PlayerRoutes = require('./player/routes/PlayerRoutes')
 const LeagueRoutes = require('./league/routes/LeagueRoutes')
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
-    console.log(process.env.MONGO_URL)
     console.log("Connect successfully to database")
 
     app.use("/player", PlayerRoutes)
