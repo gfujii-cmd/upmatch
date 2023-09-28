@@ -6,7 +6,9 @@ const router = require('express').Router()
 
 router.post("/register", [SchemaValidationMiddleware.verify(leagueSchema)], LeagueController.register)
 
-router.get("/findBy", LeagueController.findLeagueById)
+router.get("/findById", LeagueController.findLeagueById)
+
+router.get("/findByDate", LeagueController.findLeagueByDate)
 
 router.put("/addPlayerTo", LeagueController.addPlayerToLeague)
 

@@ -10,7 +10,9 @@ const LeagueSchema = new Schema({
     endDate: Schema.Types.String,
     startDate: Schema.Types.String,
     typeOfLeague: Schema.Types.String,
-    storeName: Schema.Types.String
+    storeName: Schema.Types.String,
+    game: Schema.Types.String,
+    status: Schema.Types.Boolean
 })
 
 const LeagueModel = mongoose.model('Leagues', LeagueSchema)

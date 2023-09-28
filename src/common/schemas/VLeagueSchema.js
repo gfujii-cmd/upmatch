@@ -15,8 +15,14 @@ module.exports = {
       },
       storeName: {
         type: "string"
+      },
+      game: {
+        type: "string"
+      },
+      status: {
+        type: "boolean"
       }
     },
-    required: ["startDate", "endDate", "typeOfLeague"],
+    required: ["startDate", "endDate", "typeOfLeague", "game", "status"],
     additionalProperties: false,
   };
