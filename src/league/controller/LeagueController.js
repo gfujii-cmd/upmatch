@@ -1,9 +1,12 @@
-const mongoose = require("mongoose")
 const { LeagueModel } = require('../model/League')
-const { PlayerModel } = require("../../player/model/Player")
+const csv = require("csv")
+const fs = require("fs")
+const { Readable } = require('stream')
+const readline = require("readline")
+const { Console } = require('console')
 
 module.exports = {
-    register: (req, res) => {
+    register: async (req, res) => {
         const payload = req.body
 
         const league = new LeagueModel(payload)
@@ -13,45 +16,42 @@ module.exports = {
         })
     },
 
-    addPlayerToLeague: async (req, res) => {
-        const playerId = req.query.playerId
-        const leagueId = req.query.leagueId
+    registerWithBandai: async (req, res) => {
+        const files = req.files
+        const bufferFile = files[0].buffer
+        const bufferJson = files[1].buffer
+        const leaguePayload = JSON.parse(bufferJson.toString())
 
-        try {
-            const player = await PlayerModel.findById(playerId);
-            try {
-                const league = await LeagueModel.findById(leagueId)
+        const readableFile = new Readable()
+        readableFile.push(bufferFile)
+        readableFile.push(null)
 
-                if(league.players.some(player => player.id === playerId)) {
-                    const response = {
-                        error: `Player with id ${playerId} is already in this league`,
-                        errorCode: 409
-                    }
-                    res.status(409).json(response)
-                } else {
-                    league.players.push({player, points: 0})
-                    
-                    const response = {
-                        message: `Player added to the league successfully`,
-                        data: league
-                    }
-                    res.status(200).json(response)
-                }
-            } catch (err) {
-                const response = {
-                    error: `League with id ${leagueId} does not exist in the database`,
-                    errorCode: 404
-                }
-                res.status(404).json(response)
+        const lines = readline.createInterface({
+            input: readableFile
+        })
+
+        const players = []
+        for await(let line of lines) {
+            const lineSplit = line.split(",")
+            // 0 - RANKING \ 1 - USERNAME \ 2 - WIN POINTS \ 3 - OWM \ 4 - OOWM \ 5 - MEMO
+            const player = {
+                bandaiId: lineSplit[1],
+                rank: lineSplit[0],
+                points: lineSplit[2]
             }
-        } catch(err) {
-            const response = {
-                error: `Player with id ${playerId} does not exist in the database`,
-                errorCode: 404
+            
+            if(!(lineSplit.includes(' Win Points'))) {
+                players.push(player)
             }
-            res.status(404).json(response)
         }
-   
+
+        const league = new LeagueModel(leaguePayload)
+        league.players = players
+        
+        league.save().then(() => {
+            res.status(204).json({})
+        })
+
     },
 
     findLeagueById: async (req, res) => {

@@ -2,6 +2,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 const app = express()
 app.use(cors())
@@ -10,13 +13,13 @@ app.use(express.json())
 const PORT = process.env.PORT || 3000
 
 // Routes
-const PlayerRoutes = require('./player/routes/PlayerRoutes')
+// const PlayerRoutes = require('./player/routes/PlayerRoutes')
 const LeagueRoutes = require('./league/routes/LeagueRoutes')
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Connect successfully to database")
 
-    app.use("/player", PlayerRoutes)
+    // app.use("/player", PlayerRoutes)
     app.use("/league", LeagueRoutes)
 
     app.listen(PORT, () => {
